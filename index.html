@@ -7,16 +7,23 @@
     body {
       font-family: Arial, sans-serif;
       margin: 20px;
+      background-color: #faf9f6;
     }
     h1 {
       text-align: center;
+      margin-bottom: 10px;
+    }
+    h2 {
+      margin-top: 40px;
+      text-align: center;
+      color: #444;
     }
     .container {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 40px;
-      margin-top: 40px;
+      margin-top: 20px;
     }
     .visualizacion {
       text-align: center;
@@ -35,37 +42,51 @@
     .visualizacion a:hover {
       color: #007bff;
     }
+    hr {
+      margin: 60px auto;
+      width: 80%;
+    }
   </style>
 </head>
 <body>
   <h1>Visualizaciones de Datos</h1>
-  <p style="text-align:center">
-    A continuación, encontrarás tres ejemplos de visualizaciones: <br>
-    un <strong>Gauge Display</strong>, un <strong>Spiral Heatmap</strong> y un <strong>Timeline</strong>.
-  </p>
 
+  <!-- PEC2 -->
+  <h2>PEC2 - Visualizaciones Estáticas</h2>
   <div class="container">
-    <!-- Gauge Display -->
     <div class="visualizacion">
       <a href="GaugeDisplay.html">
         <img src="GaugeDisplay.png" alt="Gauge Display">
         <h3>Gauge Display</h3>
       </a>
     </div>
-
-    <!-- Spiral Heatmap -->
     <div class="visualizacion">
       <a href="SpiralHeatmap.html">
         <img src="SpiralHeatmap.png" alt="Spiral Heatmap">
         <h3>Spiral Heatmap</h3>
       </a>
     </div>
-
-    <!-- Timeline -->
     <div class="visualizacion">
       <a href="Timeline.html">
         <img src="Timeline.png" alt="Timeline">
         <h3>Timeline</h3>
+      </a>
+    </div>
+  </div>
+
+  <!-- PEC3 -->
+  <h2>PEC3 - Storytelling e Interactividad</h2>
+  <div class="container">
+    <div class="visualizacion">
+      <a href="animacion_banderas.gif">
+        <img src="animacion_banderas.gif" alt="Animación Reservas">
+        <h3>GIF Narrativo Reservas</h3>
+      </a>
+    </div>
+    <div class="visualizacion">
+      <a href="https://tudashapp.com" target="_blank">
+        <img src="preview_dash.png" alt="App Interactiva">
+        <h3>App Interactiva Dash</h3>
       </a>
     </div>
   </div>
@@ -76,4 +97,3 @@
   </p>
 </body>
 </html>
-
