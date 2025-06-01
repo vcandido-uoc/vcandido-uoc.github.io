@@ -3,7 +3,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Comparador de Estadísticos por Vuelta</title>
+  <title>Estadísticos por Vuelta</title>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <style>
     body {
@@ -30,7 +30,7 @@
   </style>
 </head>
 <body>
-  <h1>Comparador de Estadísticos por Vuelta</h1>
+  <h1>Estadísticos por Vuelta</h1>
   <div class="selectors">
     <label>Vuelta A: <select id="lapA"></select></label>
     <label style="margin-left:20px;">Vuelta B: <select id="lapB"></select></label>
@@ -48,134 +48,134 @@
     "lap_time_num": 139.44,
     "speed_max": 239.0,
     "speed_min": 68.0,
-    "speed_mean": 130.1,
+    "speed_mean": 131.1,
     "accel_max": 0.74,
     "decel_max": -1.78,
     "pct_accelerating": 61.0,
     "rpm_max": 14571.0,
-    "rpm_mean": 9453.0,
+    "rpm_mean": 9508.0,
     "fuel_total": 0.827,
-    "distance": 5.08027
+    "distance": 5.07703
   },
   "2": {
     "lap_time": "2:19.600",
     "lap_time_num": 139.60000000000002,
     "speed_max": 241.0,
     "speed_min": 68.0,
-    "speed_mean": 131.2,
+    "speed_mean": 132.4,
     "accel_max": 0.79,
     "decel_max": -1.05,
-    "pct_accelerating": 61.0,
+    "pct_accelerating": 62.0,
     "rpm_max": 14696.0,
-    "rpm_mean": 9516.0,
+    "rpm_mean": 9580.0,
     "fuel_total": 0.771,
-    "distance": 5.13854
+    "distance": 5.13434
   },
   "3": {
     "lap_time": "2:19.160",
     "lap_time_num": 139.15999999999997,
     "speed_max": 242.0,
     "speed_min": 68.0,
-    "speed_mean": 131.4,
+    "speed_mean": 132.2,
     "accel_max": 0.57,
     "decel_max": -0.93,
     "pct_accelerating": 61.0,
     "rpm_max": 14778.0,
-    "rpm_mean": 9532.0,
+    "rpm_mean": 9578.0,
     "fuel_total": 1.008,
-    "distance": 5.11398
+    "distance": 5.11142
   },
   "4": {
     "lap_time": "2:15.970",
     "lap_time_num": 135.97000000000003,
     "speed_max": 231.0,
     "speed_min": 65.0,
-    "speed_mean": 132.8,
+    "speed_mean": 133.7,
     "accel_max": 0.65,
     "decel_max": -0.88,
-    "pct_accelerating": 60.0,
+    "pct_accelerating": 61.0,
     "rpm_max": 14477.0,
-    "rpm_mean": 9582.0,
+    "rpm_mean": 9631.0,
     "fuel_total": 0.971,
-    "distance": 5.05038
+    "distance": 5.04793
   },
   "5": {
     "lap_time": "2:20.000",
     "lap_time_num": 140.0,
     "speed_max": 229.0,
     "speed_min": 64.0,
-    "speed_mean": 132.9,
+    "speed_mean": 133.7,
     "accel_max": 0.68,
     "decel_max": -0.88,
     "pct_accelerating": 56.0,
     "rpm_max": 14066.0,
-    "rpm_mean": 9557.0,
-    "fuel_total": 0.881,
-    "distance": 5.2062
+    "rpm_mean": 9607.0,
+    "fuel_total": 0.882,
+    "distance": 5.20053
   },
   "6": {
     "lap_time": "2:17.090",
     "lap_time_num": 137.08999999999992,
     "speed_max": 240.0,
     "speed_min": 63.0,
-    "speed_mean": 133.8,
+    "speed_mean": 134.7,
     "accel_max": 0.57,
     "decel_max": -1.27,
-    "pct_accelerating": 59.0,
+    "pct_accelerating": 60.0,
     "rpm_max": 14678.0,
-    "rpm_mean": 9695.0,
+    "rpm_mean": 9737.0,
     "fuel_total": 1.194,
-    "distance": 5.13102
+    "distance": 5.12846
   }
 };
     const gearData = {
   "1": [
     0.0,
     0.0,
-    34.2,
-    46.5,
-    11.6,
+    33.7,
+    45.8,
+    12.8,
     7.7
   ],
   "2": [
     0.0,
     0.0,
-    34.7,
-    46.2,
-    11.2,
-    7.9
+    34.1,
+    45.4,
+    12.1,
+    8.4
   ],
   "3": [
     0.0,
     0.0,
-    35.2,
-    45.7,
-    10.6,
-    8.5
+    34.8,
+    45.2,
+    11.7,
+    8.4
   ],
   "4": [
     0.0,
     0.0,
-    33.6,
-    45.7,
-    12.8,
-    7.9
+    33.2,
+    45.2,
+    13.8,
+    7.8
   ],
   "5": [
     0.0,
     0.0,
-    34.9,
-    44.5,
-    10.0,
-    10.6
+    34.4,
+    43.9,
+    11.3,
+    10.5
   ],
   "6": [
     0.0,
     0.0,
-    33.2,
-    50.1,
-    8.0,
-    8.7
+    32.8,
+    49.5,
+    8.4,
+    9.3
   ]
 };
     const statLabels = {
@@ -265,12 +265,26 @@
         orientation: 'v',
         offsetgroup: 1
       };
-      Plotly.newPlot('histograma', [traceA, traceB], {
+       Plotly.newPlot('histograma', [traceA, traceB], {
         barmode: 'group',
         template: 'plotly_dark',
-        title: 'Distribución de marchas (%)',
-        xaxis: {title: 'Marcha'},
-        yaxis: {title: 'Porcentaje (%)'}
+        paper_bgcolor: 'black',
+        plot_bgcolor: 'black',
+        title: { text: 'Distribución de marchas (%)', font: { color: 'white' } },
+        xaxis: {
+          title: 'Marcha',
+          color: 'white',
+          tickfont: { color: 'white' },
+          titlefont: { color: 'white' },
+          gridcolor: 'white'
+        },
+        yaxis: {
+          title: 'Porcentaje (%)',
+          color: 'white',
+          tickfont: { color: 'white' },
+          titlefont: { color: 'white' },
+          gridcolor: 'white'
+        }
       });
     }
 
