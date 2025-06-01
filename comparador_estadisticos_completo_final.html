@@ -45,6 +45,7 @@
     const statsData = {
   "1": {
     "lap_time": "2:19.440",
+    "lap_time_num": 139.44,
     "speed_max": 239.0,
     "speed_min": 68.0,
     "speed_mean": 130.1,
@@ -58,6 +59,7 @@
   },
   "2": {
     "lap_time": "2:19.600",
+    "lap_time_num": 139.60000000000002,
     "speed_max": 241.0,
     "speed_min": 68.0,
     "speed_mean": 131.2,
@@ -71,6 +73,7 @@
   },
   "3": {
     "lap_time": "2:19.160",
+    "lap_time_num": 139.15999999999997,
     "speed_max": 242.0,
     "speed_min": 68.0,
     "speed_mean": 131.4,
@@ -84,6 +87,7 @@
   },
   "4": {
     "lap_time": "2:15.970",
+    "lap_time_num": 135.97000000000003,
     "speed_max": 231.0,
     "speed_min": 65.0,
     "speed_mean": 132.8,
@@ -97,6 +101,7 @@
   },
   "5": {
     "lap_time": "2:20.000",
+    "lap_time_num": 140.0,
     "speed_max": 229.0,
     "speed_min": 64.0,
     "speed_mean": 132.9,
@@ -110,6 +115,7 @@
   },
   "6": {
     "lap_time": "2:17.090",
+    "lap_time_num": 137.08999999999992,
     "speed_max": 240.0,
     "speed_min": 63.0,
     "speed_mean": 133.8,
@@ -203,19 +209,42 @@
       const lapA = lapSelectA.value;
       const lapB = lapSelectB.value;
 
-      function renderTable(data, table) {
-        table.innerHTML = "";
-        for (let key in statLabels) {
-          const row = table.insertRow();
-          const cell1 = row.insertCell();
-          const cell2 = row.insertCell();
-          cell1.textContent = statLabels[key];
-          cell2.textContent = data[key] ?? "-";
-        }
-      }
+      tablaA.innerHTML = "";
+      tablaB.innerHTML = "";
 
-      renderTable(statsData[lapA], tablaA);
-      renderTable(statsData[lapB], tablaB);
+      const menorEsMejor = ["lap_time", "decel_max", "fuel_total", "distance"];
+      const mayorEsMejor = ["speed_max", "speed_mean", "accel_max", "pct_accelerating", "rpm_max", "rpm_mean"];
+
+      for (let key in statLabels) {
+        const valShowA = statsData[lapA][key];
+        const valShowB = statsData[lapB][key];
+
+        const valCompA = statsData[lapA][key + "_num"] ?? parseFloat(valShowA);
+        const valCompB = statsData[lapB][key + "_num"] ?? parseFloat(valShowB);
+
+        let mejorA = false, mejorB = false;
+
+        if (!isNaN(valCompA) && !isNaN(valCompB)) {
+          if (menorEsMejor.includes(key)) {
+            mejorA = valCompA < valCompB;
+            mejorB = valCompB < valCompA;
+          } else if (mayorEsMejor.includes(key)) {
+            mejorA = valCompA > valCompB;
+            mejorB = valCompB > valCompA;
+          }
+        }
+
+        const highlightA = mejorA ? `<span style='color:gold;font-weight:bold;'>${valShowA}</span>` : valShowA;
+        const highlightB = mejorB ? `<span style='color:gold;font-weight:bold;'>${valShowB}</span>` : valShowB;
+
+        const rowA = tablaA.insertRow();
+        rowA.insertCell().textContent = statLabels[key];
+        rowA.insertCell().innerHTML = highlightA;
+
+        const rowB = tablaB.insertRow();
+        rowB.insertCell().textContent = statLabels[key];
+        rowB.insertCell().innerHTML = highlightB;
+      }
 
       const gears = ["1", "2", "3", "4", "5", "6"];
       const traceA = {
