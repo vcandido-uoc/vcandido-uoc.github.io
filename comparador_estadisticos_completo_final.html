@@ -1,0 +1,253 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Comparador de Estadísticos por Vuelta</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    h1 { text-align: center; margin-bottom: 30px; }
+    .selectors { text-align: center; margin-bottom: 20px; }
+    .tables { display: flex; justify-content: space-around; gap: 40px; margin-bottom: 40px; }
+    table {
+      border-collapse: collapse;
+      width: 300px;
+      background-color: #111;
+      border: 1px solid #666;
+    }
+    th, td {
+      border: 1px solid #444;
+      padding: 8px;
+      text-align: center;
+    }
+    th { background-color: #222; }
+  </style>
+</head>
+<body>
+  <h1>Comparador de Estadísticos por Vuelta</h1>
+  <div class="selectors">
+    <label>Vuelta A: <select id="lapA"></select></label>
+    <label style="margin-left:20px;">Vuelta B: <select id="lapB"></select></label>
+  </div>
+  <div class="tables">
+    <div><h3 style="text-align:center">Vuelta A</h3><table id="tablaA"></table></div>
+    <div><h3 style="text-align:center">Vuelta B</h3><table id="tablaB"></table></div>
+  </div>
+  <div id="histograma" style="height: 500px;"></div>
+
+  <script>
+    const statsData = {
+  "1": {
+    "lap_time": "2:19.440",
+    "speed_max": 239.0,
+    "speed_min": 68.0,
+    "speed_mean": 130.1,
+    "accel_max": 0.74,
+    "decel_max": -1.78,
+    "pct_accelerating": 61.0,
+    "rpm_max": 14571.0,
+    "rpm_mean": 9453.0,
+    "fuel_total": 0.827,
+    "distance": 5.08027
+  },
+  "2": {
+    "lap_time": "2:19.600",
+    "speed_max": 241.0,
+    "speed_min": 68.0,
+    "speed_mean": 131.2,
+    "accel_max": 0.79,
+    "decel_max": -1.05,
+    "pct_accelerating": 61.0,
+    "rpm_max": 14696.0,
+    "rpm_mean": 9516.0,
+    "fuel_total": 0.771,
+    "distance": 5.13854
+  },
+  "3": {
+    "lap_time": "2:19.160",
+    "speed_max": 242.0,
+    "speed_min": 68.0,
+    "speed_mean": 131.4,
+    "accel_max": 0.57,
+    "decel_max": -0.93,
+    "pct_accelerating": 61.0,
+    "rpm_max": 14778.0,
+    "rpm_mean": 9532.0,
+    "fuel_total": 1.008,
+    "distance": 5.11398
+  },
+  "4": {
+    "lap_time": "2:15.970",
+    "speed_max": 231.0,
+    "speed_min": 65.0,
+    "speed_mean": 132.8,
+    "accel_max": 0.65,
+    "decel_max": -0.88,
+    "pct_accelerating": 60.0,
+    "rpm_max": 14477.0,
+    "rpm_mean": 9582.0,
+    "fuel_total": 0.971,
+    "distance": 5.05038
+  },
+  "5": {
+    "lap_time": "2:20.000",
+    "speed_max": 229.0,
+    "speed_min": 64.0,
+    "speed_mean": 132.9,
+    "accel_max": 0.68,
+    "decel_max": -0.88,
+    "pct_accelerating": 56.0,
+    "rpm_max": 14066.0,
+    "rpm_mean": 9557.0,
+    "fuel_total": 0.881,
+    "distance": 5.2062
+  },
+  "6": {
+    "lap_time": "2:17.090",
+    "speed_max": 240.0,
+    "speed_min": 63.0,
+    "speed_mean": 133.8,
+    "accel_max": 0.57,
+    "decel_max": -1.27,
+    "pct_accelerating": 59.0,
+    "rpm_max": 14678.0,
+    "rpm_mean": 9695.0,
+    "fuel_total": 1.194,
+    "distance": 5.13102
+  }
+};
+    const gearData = {
+  "1": [
+    0.0,
+    0.0,
+    34.2,
+    46.5,
+    11.6,
+    7.7
+  ],
+  "2": [
+    0.0,
+    0.0,
+    34.7,
+    46.2,
+    11.2,
+    7.9
+  ],
+  "3": [
+    0.0,
+    0.0,
+    35.2,
+    45.7,
+    10.6,
+    8.5
+  ],
+  "4": [
+    0.0,
+    0.0,
+    33.6,
+    45.7,
+    12.8,
+    7.9
+  ],
+  "5": [
+    0.0,
+    0.0,
+    34.9,
+    44.5,
+    10.0,
+    10.6
+  ],
+  "6": [
+    0.0,
+    0.0,
+    33.2,
+    50.1,
+    8.0,
+    8.7
+  ]
+};
+    const statLabels = {
+      "lap_time": "Tiempo vuelta (mm:ss.mmm)",
+      "speed_max": "Velocidad máxima (km/h)",
+      "speed_min": "Velocidad mínima (km/h)",
+      "speed_mean": "Velocidad media (km/h)",
+      "accel_max": "Aceleración máxima (g)",
+      "decel_max": "Deceleración máxima (g)",
+      "pct_accelerating": "% tiempo acelerando",
+      "rpm_max": "RPM máximo",
+      "rpm_mean": "RPM medio",
+      "fuel_total": "Combustible consumido (L)",
+      "distance": "Distancia vuelta (km)"
+    };
+
+    const lapSelectA = document.getElementById("lapA");
+    const lapSelectB = document.getElementById("lapB");
+    const tablaA = document.getElementById("tablaA");
+    const tablaB = document.getElementById("tablaB");
+
+    for (let lap in statsData) {
+      lapSelectA.innerHTML += `<option value="${lap}">Lap ${lap}</option>`;
+      lapSelectB.innerHTML += `<option value="${lap}">Lap ${lap}</option>`;
+    }
+
+    lapSelectA.value = "4";
+    lapSelectB.value = "6";
+
+    function updateTablesAndChart() {
+      const lapA = lapSelectA.value;
+      const lapB = lapSelectB.value;
+
+      function renderTable(data, table) {
+        table.innerHTML = "";
+        for (let key in statLabels) {
+          const row = table.insertRow();
+          const cell1 = row.insertCell();
+          const cell2 = row.insertCell();
+          cell1.textContent = statLabels[key];
+          cell2.textContent = data[key] ?? "-";
+        }
+      }
+
+      renderTable(statsData[lapA], tablaA);
+      renderTable(statsData[lapB], tablaB);
+
+      const gears = ["1", "2", "3", "4", "5", "6"];
+      const traceA = {
+        x: gears,
+        y: gearData[lapA],
+        name: 'Lap ' + lapA,
+        type: 'bar',
+        marker: {color: 'limegreen'},
+        orientation: 'v',
+        offsetgroup: 0
+      };
+      const traceB = {
+        x: gears,
+        y: gearData[lapB],
+        name: 'Lap ' + lapB,
+        type: 'bar',
+        marker: {color: 'orangered'},
+        orientation: 'v',
+        offsetgroup: 1
+      };
+      Plotly.newPlot('histograma', [traceA, traceB], {
+        barmode: 'group',
+        template: 'plotly_dark',
+        title: 'Distribución de marchas (%)',
+        xaxis: {title: 'Marcha'},
+        yaxis: {title: 'Porcentaje (%)'}
+      });
+    }
+
+    lapSelectA.addEventListener("change", updateTablesAndChart);
+    lapSelectB.addEventListener("change", updateTablesAndChart);
+    updateTablesAndChart();
+  </script>
+</body>
+</html>
